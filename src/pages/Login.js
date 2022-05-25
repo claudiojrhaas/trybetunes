@@ -1,41 +1,9 @@
 import React from 'react';
-
-import { createUser } from '../services/userAPI';
-// import Loading from './Loading';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
-  state = {
-    nameUser: '',
-    isDisableBtnLogin: true,
-    logado: false,
-  }
-
-  onClickSaveUser = async () => {
-    const { nameUser } = this.state;
-    await createUser({ name: nameUser });
-    this.setState({ logado: true });
-  }
-
-  validateBtnLogin = () => {
-    const { nameUser } = this.state;
-    const inputMinLength = 2;
-
-    if (nameUser.length >= inputMinLength) {
-      this.setState({ isDisableBtnLogin: false });
-    } else {
-      this.setState({ isDisableBtnLogin: true });
-    }
-  }
-
-  handleChange = ({ target }) => {
-    const { value } = target;
-    this.setState({
-      nameUser: value,
-    }, this.validateBtnLogin());
-  }
-
   render() {
-    const { nameUser, isDisableBtnLogin } = this.state;
+    const { nameUser, isDisableBtnLogin, handleChange, onClickSaveUser } = this.props;
 
     return (
       <div data-testid="page-login">
@@ -45,13 +13,13 @@ class Login extends React.Component {
           placeholder="name"
           data-testid="login-name-input"
           value={ nameUser }
-          onChange={ this.handleChange }
+          onChange={ handleChange }
         />
         <button
           type="submit"
           data-testid="login-submit-button"
           disabled={ isDisableBtnLogin }
-          onClick={ this.onClickSaveUser }
+          onClick={ onClickSaveUser }
         >
           Entrar
         </button>
@@ -59,5 +27,12 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  nameUser: PropTypes.string.isRequired,
+  isDisableBtnLogin: PropTypes.bool.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  onClickSaveUser: PropTypes.func.isRequired,
+};
 
 export default Login;
