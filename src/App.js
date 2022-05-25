@@ -10,7 +10,6 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 import Loading from './components/Loading';
-import Header from './components/Header';
 
 class App extends React.Component {
   state = {
@@ -18,15 +17,15 @@ class App extends React.Component {
     isDisableBtnLogin: true,
     redirect: false,
     loading: false,
-  }
+  };
 
   onClickSaveUser = async () => {
     const { nameUser } = this.state;
-    console.log('oi');
     this.setState({ loading: true });
     await createUser({ name: nameUser });
     this.setState({ loading: false, redirect: true });
-  }
+    console.log(createUser);
+  };
 
   validateBtnLogin = () => {
     const { nameUser } = this.state;
@@ -37,32 +36,41 @@ class App extends React.Component {
     } else {
       this.setState({ isDisableBtnLogin: true });
     }
-  }
+  };
 
   handleChange = ({ target }) => {
     const { value } = target;
-    this.setState({
-      nameUser: value,
-    }, this.validateBtnLogin());
-  }
+    this.setState(
+      {
+        nameUser: value,
+      },
+      this.validateBtnLogin(),
+    );
+  };
 
   render() {
     const { redirect, loading } = this.state;
 
     return (
       <div>
-        <Header />
         <Switch>
           <Route
             exact
             path="/"
-            render={ () => (<Login
+            render={ () => (
+              <Login
+                { ...this.state }
+                handleChange={ this.handleChange }
+                onClickSaveUser={ this.onClickSaveUser }
+              />
+            ) }
+          />
+          <Route
+            path="/search"
+            render={ () => (<Search
               { ...this.state }
-              handleChange={ this.handleChange }
-              onClickSaveUser={ this.onClickSaveUser }
             />) }
           />
-          <Route path="/search" component={ Search } />
           <Route path="/album/:id" component={ Album } />
           <Route path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />
@@ -70,8 +78,8 @@ class App extends React.Component {
           <Route path="*" component={ NotFound } />
         </Switch>
         <div>
-          { redirect && <Redirect to="/search" /> }
-          { loading && <Loading /> }
+          {redirect && <Redirect to="/search" />}
+          {loading && <Loading />}
         </div>
       </div>
     );
