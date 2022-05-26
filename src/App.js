@@ -28,6 +28,8 @@ class App extends React.Component {
     console.log(createUser);
   };
 
+  // Fiz uma mudança na lógica de validação do botão para não precisar repetir a função dentro de outro componente. A idéia da resolução veio de um problema resolvido no projeto Frontend store pelo meu colega de grupo Arthur Coelho.
+
   // validateBtnLogin = () => {
   //   const { [ name ] } = this.state;
   //   const inputMinLength = 2;
@@ -80,6 +82,7 @@ class App extends React.Component {
           <Route path="*" component={ NotFound } />
         </Switch>
         <div>
+          {/* Lógica de renderização condicinonal desenvolvida com ajuda do summer Humberto Castro durante a monitoria matinal */}
           {redirect && <Redirect to="/search" />}
           {loading && <Loading />}
         </div>
