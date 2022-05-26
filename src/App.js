@@ -17,6 +17,7 @@ class App extends React.Component {
     isDisableBtnLogin: true,
     redirect: false,
     loading: false,
+    searchMusic: '',
   };
 
   onClickSaveUser = async () => {
@@ -27,24 +28,23 @@ class App extends React.Component {
     console.log(createUser);
   };
 
-  validateBtnLogin = () => {
-    const { nameUser } = this.state;
-    const inputMinLength = 2;
+  // validateBtnLogin = () => {
+  //   const { [ name ] } = this.state;
+  //   const inputMinLength = 2;
 
-    if (nameUser.length >= inputMinLength) {
-      this.setState({ isDisableBtnLogin: false });
-    } else {
-      this.setState({ isDisableBtnLogin: true });
-    }
-  };
+  //   if (name.length >= inputMinLength) {
+  //     this.setState({ isDisableBtnLogin: false });
+  //   } else {
+  //     this.setState({ isDisableBtnLogin: true });
+  //   }
+  // };
 
   handleChange = ({ target }) => {
-    const { value } = target;
+    const { name, value } = target;
     this.setState(
       {
-        nameUser: value,
+        [name]: value,
       },
-      this.validateBtnLogin(),
     );
   };
 
@@ -68,6 +68,8 @@ class App extends React.Component {
           <Route
             path="/search"
             render={ () => (<Search
+              handleChange={ this.handleChange }
+              validateBtnLogin={ this.validateBtnLogin }
               { ...this.state }
             />) }
           />

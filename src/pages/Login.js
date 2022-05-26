@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 class Login extends React.Component {
   render() {
-    const { nameUser, isDisableBtnLogin, handleChange, onClickSaveUser } = this.props;
+    const { nameUser, handleChange, onClickSaveUser } = this.props;
+    const inputMinLength = 2;
 
     return (
       <div data-testid="page-login">
         Login..............
         <input
+          name="nameUser"
           type="text"
           placeholder="name"
           data-testid="login-name-input"
@@ -18,7 +20,7 @@ class Login extends React.Component {
         <button
           type="submit"
           data-testid="login-submit-button"
-          disabled={ isDisableBtnLogin }
+          disabled={ inputMinLength > nameUser.length }
           onClick={ onClickSaveUser }
         >
           Entrar
@@ -30,7 +32,6 @@ class Login extends React.Component {
 
 Login.propTypes = {
   nameUser: PropTypes.string.isRequired,
-  isDisableBtnLogin: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
   onClickSaveUser: PropTypes.func.isRequired,
 };

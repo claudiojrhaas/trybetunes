@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Header from '../components/Header';
 import { getUser } from '../services/userAPI';
@@ -23,17 +24,41 @@ class Search extends React.Component {
 
   render() {
     const { nameUserPrinted, printUser, loading } = this.state;
+    const { handleChange, searchMusic } = this.props;
+    const inputMinLength = 2;
+
     return (
       <div data-testid="page-search">
-        <Header />
         <div data-testid="header-user-name">
           { loading && <Loading /> }
           { printUser && nameUserPrinted }
+          <Header />
         </div>
-        <h1>Search</h1>
+        <div>
+          <input
+            name="searchMusic"
+            type="text"
+            placeholder="Pesquisar"
+            data-testid="search-artist-input"
+            value={ searchMusic }
+            onChange={ handleChange }
+          />
+          <button
+            type="submit"
+            data-testid="search-artist-button"
+            disabled={ inputMinLength > searchMusic.length }
+          >
+            Pesquisar
+          </button>
+        </div>
       </div>
     );
   }
 }
+
+Search.propTypes = {
+  searchMusic: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};
 
 export default Search;
