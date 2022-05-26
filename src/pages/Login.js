@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class Login extends React.Component {
   render() {
     const { nameUser, handleChange, onClickSaveUser } = this.props;
-    const inputMinLength = 2;
+    const inputMinLength = 3;
 
     return (
       <div data-testid="page-login">
