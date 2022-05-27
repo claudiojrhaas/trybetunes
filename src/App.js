@@ -42,7 +42,8 @@ class App extends React.Component {
   // };
 
   handleChange = ({ target }) => {
-    const { name, value } = target;
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState(
       {
         [name]: value,
@@ -79,7 +80,12 @@ class App extends React.Component {
               { ...this.state }
             />) }
           />
-          <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
+          <Route
+            path="/album/:id"
+            render={ (props) => (<Album
+              { ...props }
+            />) }
+          />
           <Route path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />
           <Route path="/profile/edit" component={ ProfileEdit } />

@@ -16,7 +16,6 @@ class Album extends React.Component {
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const response = await getMusics(id);
-    console.log(response);
     this.setState({
       loadingList: true,
       request: response,
@@ -27,13 +26,17 @@ class Album extends React.Component {
 
   render() {
     const { loadingList, showArtist, showCollect, request } = this.state;
+    const { handleChange } = this.props;
 
     return (
       <div data-testid="page-album">
         <Header />
         <div data-testid="artist-name">{ loadingList && showArtist }</div>
         <div data-testid="album-name">{ loadingList && showCollect }</div>
-        <div>{ loadingList && <MusicCard request={ request } /> }</div>
+        <div>
+          { loadingList
+          && <MusicCard request={ request } handleChange={ handleChange } /> }
+        </div>
       </div>
     );
   }
