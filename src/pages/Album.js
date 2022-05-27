@@ -4,24 +4,27 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
     loadingList: false,
     showArtist: '',
     showCollect: '',
-    request: '',
+    request: [],
   }
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const response = await getMusics(id);
+    const response2 = response.filter((trackId) => trackId.trackId);
     this.setState({
       loadingList: true,
-      request: response,
+      request: response2,
       showArtist: response[0].artistName,
       showCollect: response[0].collectionName,
     });
+    // await getFavoriteSongs();
   }
 
   render() {
@@ -33,8 +36,7 @@ class Album extends React.Component {
         <div data-testid="artist-name">{ loadingList && showArtist }</div>
         <div data-testid="album-name">{ loadingList && showCollect }</div>
         <div>
-          { loadingList
-          && request.filter((trackId) => trackId.trackId).map((music) => (
+          { request.map((music) => (
             <MusicCard key={ music.trackId } music={ music } { ...music } />)) }
         </div>
       </div>
@@ -43,7 +45,11 @@ class Album extends React.Component {
 }
 
 Album.propTypes = {
-  match: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Album;
