@@ -17,7 +17,7 @@ class App extends React.Component {
     isDisableBtnLogin: true,
     redirect: false,
     loading: false,
-    searchMusic: '',
+    searchInput: '',
   };
 
   onClickSaveUser = async () => {
@@ -50,6 +50,10 @@ class App extends React.Component {
     );
   };
 
+  clearInput = () => {
+    this.setState({ searchInput: '' });
+  }
+
   render() {
     const { redirect, loading } = this.state;
 
@@ -70,8 +74,8 @@ class App extends React.Component {
           <Route
             path="/search"
             render={ () => (<Search
+              clearInput={ this.clearInput }
               handleChange={ this.handleChange }
-              validateBtnLogin={ this.validateBtnLogin }
               { ...this.state }
             />) }
           />
@@ -82,7 +86,7 @@ class App extends React.Component {
           <Route path="*" component={ NotFound } />
         </Switch>
         <div>
-          {/* Lógica de renderização condicinonal desenvolvida com ajuda do summer Humberto Castro durante a monitoria matinal */}
+          { /* Lógica de renderização condicinonal desenvolvida com ajuda do summer Humberto Castro durante a monitoria matinal */}
           {redirect && <Redirect to="/search" />}
           {loading && <Loading />}
         </div>
