@@ -79,7 +79,7 @@ class App extends React.Component {
               { ...this.state }
             />) }
           />
-          <Route path="/album/:id" component={ Album } />
+          <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
           <Route path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />
           <Route path="/profile/edit" component={ ProfileEdit } />
