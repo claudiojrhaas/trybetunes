@@ -26,7 +26,6 @@ class Album extends React.Component {
 
   render() {
     const { loadingList, showArtist, showCollect, request } = this.state;
-    const { handleChange } = this.props;
 
     return (
       <div data-testid="page-album">
@@ -35,7 +34,8 @@ class Album extends React.Component {
         <div data-testid="album-name">{ loadingList && showCollect }</div>
         <div>
           { loadingList
-          && <MusicCard request={ request } handleChange={ handleChange } /> }
+          && request.filter((trackId) => trackId.trackId).map((song) => (
+            <MusicCard key={ song.trackId } music={ song } />)) }
         </div>
       </div>
     );

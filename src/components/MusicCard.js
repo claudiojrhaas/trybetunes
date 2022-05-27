@@ -7,7 +7,18 @@ import Loading from './Loading';
 class MusicCard extends React.Component {
   state = {
     loading: false,
+    checked: false,
   }
+
+  handleChange = ({ target }) => {
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState(
+      {
+        [name]: value,
+      }, this.addFavoriteList,
+    );
+  };
 
   addFavoriteList = async () => {
     const { request } = this.props;
@@ -16,17 +27,21 @@ class MusicCard extends React.Component {
     this.setState({ loading: false });
   }
 
+  recoveryFavoriteSongs = async () => {
+    const { favorite } = this.state;
+    await getFavoriteSongs(favorite);
+  }
+
   render() {
-    const { loading } = this.props;
-    const { request } = this.props;
+    const { loading, checked } = this.state;
+    const { music } = this.props;
 
     return (
       <div>
-        { loading && <Loading /> }
-        { request
+        { loading ? <Loading />
+          : (
           // Lógica do filter tirada de uma thread no slack: https://trybecourse.slack.com/archives/C0320DL79QS/p1653336494328899?thread_ts=1653335589.448189&cid=C0320DL79QS
-          .filter((_song, index) => index > 0)
-          .map((music) => (
+
             <div key={ music.trackId }>
               <p>{ music.trackName }</p>
               <audio data-testid="audio-component" src={ music.previewUrl } controls>
@@ -35,17 +50,19 @@ class MusicCard extends React.Component {
                 <code>audio</code>
                 .
               </audio>
-              <label htmlFor="checkbox">
+              <label htmlFor={ music.trackId }>
                 Favorita
                 <input
                   type="checkbox"
-                  name="checkbox"
+                  id={ music.trackId }
+                  name="checked"
                   data-testid={ `checkbox-music-${music.trackId}` }
-                  onClick={ this.addFavoriteList }
+                  onChange={ this.handleChange }
+                  checked={ checked }
                 />
               </label>
-            </div>
-          )) }
+            </div>)}
+
       </div>
     );
   }
@@ -53,6 +70,7 @@ class MusicCard extends React.Component {
 
 MusicCard.propTypes = {
   request: PropTypes.string.isRequired,
+  music: PropTypes.string.isRequired,
 };
 
 export default MusicCard;
