@@ -25,7 +25,7 @@ class MusicCard extends React.Component {
 
   handleChange = ({ target }) => {
     const { name } = target;
-    const value = target.type === 'checkbox' ? target.isChecked : target.value;
+    const value = (target.type === 'checkbox') && target.checked;
     this.setState(
       {
         [name]: value,
