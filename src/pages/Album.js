@@ -34,8 +34,8 @@ class Album extends React.Component {
         <div data-testid="album-name">{ loadingList && showCollect }</div>
         <div>
           { loadingList
-          && request.filter((trackId) => trackId.trackId).map((song) => (
-            <MusicCard key={ song.trackId } music={ song } />)) }
+          && request.filter((trackId) => trackId.trackId).map((music) => (
+            <MusicCard key={ music.trackId } music={ music } { ...music } />)) }
         </div>
       </div>
     );
@@ -43,7 +43,7 @@ class Album extends React.Component {
 }
 
 Album.propTypes = {
-  match: PropTypes.string.isRequired,
+  match: PropTypes.shape({}).isRequired,
 };
 
 export default Album;
