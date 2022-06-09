@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import { getFavoriteSongs, addSong } from '../services/favoriteSongsAPI';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
-    isLoadingAddMusicToFavorite: false,
+    // isLoadingAddMusicToFavorite: false,
     isLoadingMusicList: false,
     showArtist: '',
     showCollect: '',
@@ -26,12 +26,12 @@ class Album extends React.Component {
     });
   }
 
-  addFavoriteList = async () => {
-    const { music } = this.props;
-    this.setState({ isLoadingAddMusicToFavorite: true });
-    await addSong(music);
-    this.setState({ isLoadingAddMusicToFavorite: false });
-  }
+  // addFavoriteList = async () => {
+  //   const { music } = this.props;
+  //   this.setState({ isLoadingAddMusicToFavorite: true });
+  //   await addSong(music);
+  //   this.setState({ isLoadingAddMusicToFavorite: false });
+  // }
 
   validationFavorite = async () => {
     const { music } = this.props;
