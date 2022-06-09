@@ -23,7 +23,6 @@ class MusicCard extends React.Component {
   }
 
   handleChange = ({ target }) => {
-    // const { addFavoriteList } = this.props;
     const { name } = target;
     const value = (target.type === 'checkbox') && target.checked;
     this.setState(
@@ -72,8 +71,6 @@ MusicCard.propTypes = {
     trackName: PropTypes.string.isRequired,
     previewUrl: PropTypes.string.isRequired,
   }).isRequired,
-  // isLoadingAddMusicToFavorite: PropTypes.bool.isRequired,
-  addFavoriteList: PropTypes.func.isRequired,
   validationFavorite: PropTypes.func.isRequired,
 };
 
