@@ -25,7 +25,6 @@ class App extends React.Component {
     this.setState({ loading: true });
     await createUser({ name: nameUser });
     this.setState({ loading: false, redirect: true });
-    console.log(createUser);
   };
 
   // Fiz uma mudança na lógica de validação do botão para não precisar repetir a função dentro de outro componente. A idéia da resolução veio de um problema resolvido no projeto Frontend store pelo meu colega de grupo Arthur Coelho.

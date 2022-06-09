@@ -29,7 +29,7 @@ class SearchArtist extends React.Component {
 }
 
 SearchArtist.propTypes = {
-  printAlbum: PropTypes.string.isRequired,
+  printAlbum: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default SearchArtist;

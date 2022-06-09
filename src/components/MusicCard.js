@@ -1,51 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
-// Matheus Almeida, Rodrigo Macedo
 
 class MusicCard extends React.Component {
   state = {
-    loading: false,
     isChecked: false,
   }
 
-  componentDidMount() {
-    this.validationFavorite();
+  async componentDidMount() {
+    const { validationFavorite } = this.props;
+    await validationFavorite();
   }
 
   handleChange = ({ target }) => {
+    const { addFavoriteList } = this.props;
     const { name } = target;
     const value = (target.type === 'checkbox') && target.checked;
     this.setState(
       {
         [name]: value,
-      }, async () => this.addFavoriteList(),
+      }, async () => addFavoriteList(),
     );
   };
 
-  addFavoriteList = async () => {
-    const { music } = this.props;
-    this.setState({ loading: true });
-    await addSong(music);
-    this.setState({ loading: false });
-  }
-
-  validationFavorite = async () => {
-    const { music } = this.props;
-    const response = await getFavoriteSongs();
-    const responseValidation = response.some((track) => track.trackId === music.trackId);
-    this.setState({ isChecked: responseValidation });
-  }
-
   render() {
-    const { loading, isChecked } = this.state;
-    const { music } = this.props;
+    const { isChecked } = this.state;
+    const { music, isLoadingAddMusicToFavorite } = this.props;
 
     return (
       <div>
-        { loading ? <Loading />
+        { isLoadingAddMusicToFavorite ? <Loading />
           : (
             <div key={ music.trackId }>
               <p>{ music.trackName }</p>
@@ -73,8 +58,14 @@ class MusicCard extends React.Component {
 }
 
 MusicCard.propTypes = {
-  music: PropTypes.shape({}).isRequired,
-  trackId: PropTypes.number.isRequired,
+  music: PropTypes.shape({
+    trackId: PropTypes.number.isRequired,
+    trackName: PropTypes.string.isRequired,
+    previewUrl: PropTypes.string.isRequired,
+  }).isRequired,
+  isLoadingAddMusicToFavorite: PropTypes.bool.isRequired,
+  addFavoriteList: PropTypes.func.isRequired,
+  validationFavorite: PropTypes.func.isRequired,
 };
 
 export default MusicCard;
