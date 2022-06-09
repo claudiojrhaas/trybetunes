@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
+// Matheus Almeida, Rodrigo Macedo
 
 class MusicCard extends React.Component {
   state = {
     loading: false,
-    checked: false,
+    isChecked: false,
   }
 
   componentDidMount() {
@@ -16,11 +17,11 @@ class MusicCard extends React.Component {
 
   handleChange = ({ target }) => {
     const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = (target.type === 'checkbox') && target.checked;
     this.setState(
       {
         [name]: value,
-      }, this.addFavoriteList,
+      }, async () => this.addFavoriteList(),
     );
   };
 
@@ -35,19 +36,17 @@ class MusicCard extends React.Component {
     const { music } = this.props;
     const response = await getFavoriteSongs();
     const responseValidation = response.some((track) => track.trackId === music.trackId);
-    this.setState({ checked: responseValidation });
+    this.setState({ isChecked: responseValidation });
   }
 
   render() {
-    const { loading, checked } = this.state;
+    const { loading, isChecked } = this.state;
     const { music } = this.props;
 
     return (
       <div>
         { loading ? <Loading />
           : (
-          // Lógica do filter tirada de uma thread no slack: https://trybecourse.slack.com/archives/C0320DL79QS/p1653336494328899?thread_ts=1653335589.448189&cid=C0320DL79QS
-
             <div key={ music.trackId }>
               <p>{ music.trackName }</p>
               <audio data-testid="audio-component" src={ music.previewUrl } controls>
@@ -61,14 +60,13 @@ class MusicCard extends React.Component {
                 <input
                   type="checkbox"
                   id={ music.trackId }
-                  name="checked"
+                  name="isChecked"
                   data-testid={ `checkbox-music-${music.trackId}` }
                   onChange={ this.handleChange }
-                  checked={ checked }
+                  checked={ isChecked }
                 />
               </label>
             </div>)}
-
       </div>
     );
   }

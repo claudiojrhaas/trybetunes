@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
     loadingList: false,
     showArtist: '',
     showCollect: '',
-    request: '',
+    request: [],
   }
 
   async componentDidMount() {
@@ -22,6 +23,7 @@ class Album extends React.Component {
       showArtist: response[0].artistName,
       showCollect: response[0].collectionName,
     });
+    // await getFavoriteSongs();
   }
 
   render() {
@@ -34,8 +36,10 @@ class Album extends React.Component {
         <div data-testid="album-name">{ loadingList && showCollect }</div>
         <div>
           { loadingList
-          && request.filter((trackId) => trackId.trackId).map((music) => (
-            <MusicCard key={ music.trackId } music={ music } { ...music } />)) }
+          && request
+            .filter((trackId) => trackId.trackId)
+            .map((music) => (
+              <MusicCard key={ music.trackId } music={ music } { ...music } />)) }
         </div>
       </div>
     );
