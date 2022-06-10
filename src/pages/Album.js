@@ -28,13 +28,6 @@ class Album extends React.Component {
     });
   }
 
-  // validationFavorite = async () => {
-  //   const { music } = this.props;
-  //   const response = await getFavoriteSongs();
-  //   const responseValidation = response.some((track) => track.trackId === music.trackId);
-  //   this.setState({ isChecked: responseValidation });
-  // }
-
   render() {
     const { isLoadingMusicList,
       showArtist,

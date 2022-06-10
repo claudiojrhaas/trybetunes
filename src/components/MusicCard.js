@@ -14,32 +14,20 @@ class MusicCard extends React.Component {
     this.checkFavorite();
   }
 
-  addFavoriteList = async () => {
-    const { music } = this.props;
-    this.setState({ isLoadingAddMusicToFavorite: true });
-    await addSong(music);
-    this.setState({ isLoadingAddMusicToFavorite: false });
-  }
-
-  removeFavotiteList = async () => {
-    const { music } = this.props;
-    this.setState({ isLoadingAddMusicToFavorite: true });
-    await removeSong(music);
-    this.setState({ isLoadingAddMusicToFavorite: false });
-  }
-
-  changeFavoriteList = () => {
+  changeFavoriteList = async () => {
     const { isCheckedFavoriteSong } = this.state;
-    if (!isCheckedFavoriteSong) {
-      this.removeFavotiteList();
+    const { music } = this.props;
+    this.setState({ isLoadingAddMusicToFavorite: true });
+    if (isCheckedFavoriteSong) {
+      await addSong(music);
     } else {
-      this.addFavoriteList();
+      await removeSong(music);
     }
+    this.setState({ isLoadingAddMusicToFavorite: false });
   }
 
   checkFavorite = () => {
     const { music: { trackId }, favorites } = this.props;
-    console.log(favorites);
     const responseValidation = favorites.some((track) => track.trackId === trackId);
     if (responseValidation) {
       this.setState({
