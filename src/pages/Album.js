@@ -7,7 +7,6 @@ import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
-
 class Album extends React.Component {
   state = {
     isLoadingMusicList: false,
