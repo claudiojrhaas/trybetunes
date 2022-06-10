@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import Loading from '../components/Loading';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+
 
 class Album extends React.Component {
   state = {
@@ -11,6 +14,7 @@ class Album extends React.Component {
     showArtist: '',
     showCollect: '',
     requestAPI: [],
+    favorites: [],
   }
 
   async componentDidMount() {
@@ -21,6 +25,7 @@ class Album extends React.Component {
       requestAPI: response,
       showArtist: response[0].artistName,
       showCollect: response[0].collectionName,
+      favorites: await getFavoriteSongs(),
     });
   }
 
@@ -36,6 +41,7 @@ class Album extends React.Component {
       showArtist,
       showCollect,
       requestAPI,
+      favorites,
     } = this.state;
 
     return (
@@ -46,14 +52,16 @@ class Album extends React.Component {
         <div>
           {
             isLoadingMusicList
-            && requestAPI
-              .filter((trackId) => trackId.trackId)
-              .map((music) => (
-                <MusicCard
-                  key={ music.trackId }
-                  music={ music }
-                  { ...this.state }
-                />))
+              ? (requestAPI
+                .filter((trackId) => trackId.trackId)
+                .map((music) => (
+                  <MusicCard
+                    key={ music.trackId }
+                    music={ music }
+                    { ...this.state }
+                    favorites={ favorites }
+                  />)))
+              : <Loading />
           }
         </div>
       </div>
