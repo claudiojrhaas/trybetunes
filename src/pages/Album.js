@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
@@ -25,12 +24,12 @@ class Album extends React.Component {
     });
   }
 
-  validationFavorite = async () => {
-    const { music } = this.props;
-    const response = await getFavoriteSongs();
-    const responseValidation = response.some((track) => track.trackId === music.trackId);
-    this.setState({ isChecked: responseValidation });
-  }
+  // validationFavorite = async () => {
+  //   const { music } = this.props;
+  //   const response = await getFavoriteSongs();
+  //   const responseValidation = response.some((track) => track.trackId === music.trackId);
+  //   this.setState({ isChecked: responseValidation });
+  // }
 
   render() {
     const { isLoadingMusicList,
@@ -53,10 +52,7 @@ class Album extends React.Component {
                 <MusicCard
                   key={ music.trackId }
                   music={ music }
-                  { ...music }
                   { ...this.state }
-                  addFavoriteList={ this.addFavoriteList }
-                  validationFavorite={ this.validationFavorite }
                 />))
           }
         </div>
