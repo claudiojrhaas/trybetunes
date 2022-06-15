@@ -7,12 +7,8 @@ import { getUser } from '../services/userAPI';
 
 class Profile extends React.Component {
   state = {
-    loadingUserData: false,
-    printProfile: false,
-    name: '',
-    email: '',
-    image: '',
-    description: '',
+    loadingPrintUser: false,
+    infosUser: '',
   }
 
   componentDidMount() {
@@ -20,49 +16,41 @@ class Profile extends React.Component {
   }
 
   getRecoverUser = async () => {
-    this.setState({ loadingUserData: true });
+    this.setState({ loadingPrintUser: true });
     const responseUser = await getUser();
     console.log(responseUser.name);
     this.setState({
-      loadingUserData: false,
-      printProfile: true,
-      name: responseUser.name,
-      email: responseUser.email,
-      image: responseUser.image,
-      description: responseUser.description,
+      loadingPrintUser: false,
+      infosUser: responseUser,
     });
   }
 
   render() {
     const {
-      loadingUserData,
-      printProfile,
-      name,
-      email,
-      image,
-      description,
+      loadingPrintUser,
+      infosUser,
     } = this.state;
+    const { name, image, email, description } = infosUser;
 
     return (
       <div data-testid="page-profile">
         <Header />
-        { loadingUserData && <Loading /> }
-        {
-          printProfile
-            && (
+        { loadingPrintUser ? <Loading />
+          : (
+            <div>
+              <p>{ name }</p>
+              <p>{ email }</p>
+              <p>{ description }</p>
               <div>
-                <span>{ name }</span>
                 <img
                   data-testid="profile-image"
                   src={ image }
                   alt="Imagem do usuário"
                 />
-                <div>{ email }</div>
-                <div>{ description }</div>
-                <Link to="/profile/edit">Editar perfil</Link>
               </div>
-            )
-        }
+              <Link to="/profile/edit">Editar perfil</Link>
+            </div>
+          )}
       </div>
     );
   }
