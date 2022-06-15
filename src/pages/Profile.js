@@ -51,7 +51,7 @@ class Profile extends React.Component {
           printProfile
             && (
               <div>
-                <h4>{ name }</h4>
+                <span>{ name }</span>
                 <img
                   data-testid="profile-image"
                   src={ image }
