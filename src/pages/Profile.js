@@ -18,7 +18,6 @@ class Profile extends React.Component {
   getRecoverUser = async () => {
     this.setState({ loadingPrintUser: true });
     const responseUser = await getUser();
-    console.log(responseUser.name);
     this.setState({
       loadingPrintUser: false,
       infosUser: responseUser,
